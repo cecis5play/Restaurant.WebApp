@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ProductViewModel> 
+@{
+    ViewBag.Title = "Меню";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="row" style="padding-top: 30px">
+       @foreach(var item in Model)
+    {
+        <div class="row" style="padding-top: 30px">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@item.ImageUrl/100px180/" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <a class="btn btn-primary" asp-controller="Menu" asp-action="ProductDetails" asp-route-id="@item.Id">Разбери Повече</a>
+                
+                </div>
+        </div>
+        </div>
+    }
+</div>

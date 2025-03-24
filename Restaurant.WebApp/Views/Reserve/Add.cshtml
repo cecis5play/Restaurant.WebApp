@@ -1,0 +1,40 @@
+﻿@model ReserveFormViewModel
+@{
+    ViewBag.Title = "Детайли за вашата резервация";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post" asp-controller="Reserve" asp-action="Add">
+            <div class="form-group">
+                <label asp-for="ReservationDate">Дата</label>
+                <input asp-for="ReservationDate" class="form-control" placeholder="Дата...">
+                <span asp-validation-for="ReservationDate" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonNumber">Номер на хората</label>
+                <input asp-for="PersonNumber" class="form-control" placeholder="Колко  човека?...">
+                <span asp-validation-for="PersonNumber" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChildrenNumber">Номер на децата</label>
+                <input asp-for="ChildrenNumber" class="form-control" placeholder="Колко деца?...">
+                <span asp-validation-for="ChildrenNumber" class="small text-danger"></span>
+            </div>
+            <label>Клас на МПС-то</label>
+            <select class="form-select" aria-label="Default select example" asp-for="RoomTypeId">
+                @foreach (var item in Model.RoomTypes)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+
+
+            </select>
+
+            <input class="btn btn-primary mt-3" type="submit" value="Добави" />
+        </form>
+    </div>
+</div>

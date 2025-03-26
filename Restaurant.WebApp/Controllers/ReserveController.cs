@@ -24,7 +24,6 @@ namespace Restaurant.WebApp.Controllers
             var reservationModel = new ReserveFormViewModel()
             {
                 RoomTypes = roomTypes,
-                ReservationDate = DateTime.Now,
             };
 
             return View(reservationModel);

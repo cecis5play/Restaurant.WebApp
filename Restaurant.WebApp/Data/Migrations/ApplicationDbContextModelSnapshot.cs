@@ -295,9 +295,9 @@ namespace Restaurant.WebApp.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 2,
-                            Description = ".....",
+                            Description = "Black Angus месо, маруля, лук, барбекю сос",
                             ImageUrl = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fHww",
-                            Name = "Burger"
+                            Name = "Бургер"
                         });
                 });
 

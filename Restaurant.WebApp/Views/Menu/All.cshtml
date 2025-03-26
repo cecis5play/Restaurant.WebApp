@@ -9,14 +9,13 @@
        @foreach(var item in Model)
     {
         <div class="row" style="padding-top: 30px">
-            <div class="card" style="width: 18rem;">
+            <a class="card text-black text-decoration-none" style="width: 18rem;" asp-controller="Menu" asp-action="ProductDetails" asp-route-id="@item.Id">
                 <img class="card-img-top" src="@item.ImageUrl/100px180/" alt="Product Image">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <a class="btn btn-primary" asp-controller="Menu" asp-action="ProductDetails" asp-route-id="@item.Id">Разбери Повече</a>
+                    <h5 class="card-title" style="padding-left: 80px;">@item.Name</h5>
                 
                 </div>
-        </div>
+        </a>
         </div>
     }
 </div>

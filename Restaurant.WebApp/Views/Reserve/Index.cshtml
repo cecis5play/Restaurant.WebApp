@@ -4,5 +4,18 @@
 
 <div class="text-center">
     <h1 class="display-4">Резервация</h1>
-    <a class="btn btn-primary" asp-controller="Reserve" asp-action="Add">Направи резервация в наш ресторант</a>
+    @if (this.User?.Identity?.IsAuthenticated == true)
+    {
+        <a class="btn btn-primary" asp-controller="Reserve" asp-action="Add">Направи резервация в наш ресторант</a>
+    }
+    else
+    {
+        <h4 class="text-danger">За да направите резервация трябва да имате профил</h4>
+        <div>
+        <a class="link-opacity-100" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+        </div>
+        <div>
+            <a class="link-opacity-100" asp-area="Identity" asp-page="/Account/Register">Регистрирай се</a>
+        </div>
+    }
 </div>

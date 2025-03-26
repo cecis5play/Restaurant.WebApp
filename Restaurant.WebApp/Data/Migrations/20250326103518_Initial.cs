@@ -107,7 +107,7 @@ namespace Restaurant.WebApp.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price", "Quantity" },
-                values: new object[] { 1, 2, ".....", "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fHww", "Burger", null, null });
+                values: new object[] { 1, 2, "Black Angus месо, маруля, лук, барбекю сос", "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fHww", "Бургер", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

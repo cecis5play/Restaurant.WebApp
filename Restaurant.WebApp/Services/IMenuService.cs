@@ -7,5 +7,11 @@ namespace Restaurant.WebApp.Services
         public IEnumerable<ProductViewModel> GetAll();
 
         public ProductDetailViewModel GetProductDetails(int id);
+        public void Edit(ProductFormModel model);
+        public int Create(ProductFormModel model);
+        public List<CategoryModel> GetCategories();
+        bool Exists(int id);
+        public void Delete(int id);
+
     }
 }

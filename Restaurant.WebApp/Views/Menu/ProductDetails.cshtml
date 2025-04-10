@@ -1,16 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model ProductDetailViewModel
 
-@{
-    ViewBag.Title = "Информация на Продукта";
-}
 <h2 class="text-center">@ViewBag.Title</h2>
-<hr />
+
 
 <div class="card text-center mx-auto" style="width: 30rem;">
     <div class="card-body">
-        <img class="card-img-top" src="@Model.ImageUrl/100px180/" alt="Product Image">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Product Image">
         <h5 class="card-title" style="font-size: xxx-large;font-family: ui-monospace;">@Model.Name</h5>
         <p class="card-text" style="  font-size: xx-large;">@Model.Description</p>
-        </div>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+        <a class="fs-4 bi bi-pencil-square btn btn-success" asp-controller="Menu" asp-action="Edit" asp-route-id="@Model.Id"></a>
+        <a class="fs-4 bi bi-trash3 btn btn-danger" asp-controller="Menu" asp-action="Delete" asp-route-id="@Model.Id"></a>
+                        }
+    </div>
  </div>

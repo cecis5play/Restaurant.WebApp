@@ -10,8 +10,9 @@ namespace Restaurant.WebApp.Data.Entities
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(20)]
+        [MaxLength(30)]
         public string Name { get; set; }
+        [MaxLength(90)]
         public string Description { get; set; }
         public decimal? Price { get; set; }
         public int? Quantity { get; set; }

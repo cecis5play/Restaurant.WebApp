@@ -99,7 +99,7 @@ namespace Restaurant.WebApp
                 string email = "manager@manager.com";
                 string password = "Manager123";
 
-                if (await userManager.FindByEmailAsync(email) == null)
+                 if (await userManager.FindByEmailAsync(email) == null)
                 {
                     var user = new IdentityUser();
                     user.UserName = email;

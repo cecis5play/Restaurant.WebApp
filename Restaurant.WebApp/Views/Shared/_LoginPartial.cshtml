@@ -9,17 +9,12 @@
         {
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Поръчай за вкъщи</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="OrderMenu">Поръчай за вкъщи</a>
                 </li>
             </ul>
         }
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Здравей, @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Излез</button>
-        </form>
+            <a class="nav-link text-dark bi bi-person-fill" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
     </li>
 }
 else

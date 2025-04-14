@@ -1,0 +1,17 @@
+﻿
+
+<div class="shadow rounded">
+    <div class="p-2">
+        <form method="get" autocomplete="off" asp-action="All" asp-controller="Menu">
+            <div class="mb-3 row">
+                <div class="col-9">
+                    <input type="search" placeholder="Потърси продукт" class="form-control" name="searchString" />
+                </div>
+                <div class="col-3">
+                    <button type="submit" class="btn btn-sm btn-success p-2">Търси </button>
+                    <a asp-action="All" class="btn btn-sm btn-success p-2">Изчисти</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

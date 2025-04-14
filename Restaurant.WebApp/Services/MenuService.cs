@@ -24,7 +24,10 @@ namespace Restaurant.WebApp.Services
                 Quantity = p.Quantity,
                 ImageUrl = p.ImageUrl,
                 Category = p.Category.Name,
+                CategoryId = p.CategoryId,
             }).ToList();
+
+            
 
             return products;
         }

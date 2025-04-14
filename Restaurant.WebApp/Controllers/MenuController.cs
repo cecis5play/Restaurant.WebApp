@@ -22,17 +22,26 @@ namespace Restaurant.WebApp.Controllers
         {
             return View();
         }
-        public IActionResult All(string searchString)
+        public IActionResult All(int categoryId, string searchString)
         {
-            var products = service.GetAll();
+            ProductsAndCategoriesViewModel model = new ProductsAndCategoriesViewModel();
+            model.Products = service.GetAll();
+            model.Categories = service.GetCategories();
+            //var products = service.GetAll();
             if (searchString != null)
             {
-                products = products
+                model.Products = model.Products
                     .Where(p => p.Name.ToLower().Contains(searchString.ToLower()))
                     .ToList();
             }
 
-            return View(products);
+            model.Products = model.Products
+                .Where(c => c.CategoryId == categoryId)
+                .ToList();
+
+
+
+            return View(model);
         }
         public IActionResult ProductDetails(int id)
         {

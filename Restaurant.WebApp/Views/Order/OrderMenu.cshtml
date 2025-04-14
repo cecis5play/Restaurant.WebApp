@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProductViewModel>
+<div class="container-fluid">
+    <div class="row" style="padding-bottom: 20px;">
+        <div class="col-12">
+            <div class="shadow rounded">
+                <div class="p-2">
+                    <form method="get" autocomplete="off" asp-action="OrderMenu" asp-controller="Order">
+                        <div class="mb-3 row">
+                            <div class="col-9">
+                                <input type="search" placeholder="Потърси продукт" class="form-control" name="searchString" />
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-sm btn-success p-2">Търси </button>
+                                <a asp-action="OrderMenu" class="btn btn-sm btn-success p-2">Изчисти</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="shadow rounded">
+                <div class="border-bottom p-2">
+                    <h4 class="text-pink text-center fst-italic">Категории</h4>
+                    <ul class="list-group-flush">
+                        <li class="recepie-item list-group-item">
+                            <a class="text-decoration-none text-dark" href="">Salads</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @foreach (var item in Model)
+        {
+
+            <a class="card text-black text-decoration-none" style="width: 18rem;" asp-controller="Order" asp-action="ProductDetails" asp-route-id="@item.Id">
+                <img class="card-img-top" src="@item.ImageUrl/100px180/" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title" style="padding-left: 80px;">@item.Name</h5>
+
+                </div>
+            </a>
+        }
+    </div>
+</div>

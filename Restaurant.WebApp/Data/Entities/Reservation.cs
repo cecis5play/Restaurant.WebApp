@@ -19,5 +19,8 @@ namespace Restaurant.WebApp.Data.Entities
         public int RoomTypeId { get; set; }
         public RoomType RoomType { get; set; }
         public DateTime ReservationHour { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -12,7 +12,6 @@ namespace Restaurant.WebApp.Data.Entities
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        //userid
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }

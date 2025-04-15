@@ -34,10 +34,12 @@ namespace Restaurant.WebApp.Controllers
                     .Where(p => p.Name.ToLower().Contains(searchString.ToLower()))
                     .ToList();
             }
-
-            model.Products = model.Products
-                .Where(c => c.CategoryId == categoryId)
-                .ToList();
+            if (categoryId != 0)
+            {
+                model.Products = model.Products
+                    .Where(c => c.CategoryId == categoryId)
+                    .ToList();
+            }
 
 
 
@@ -54,6 +56,16 @@ namespace Restaurant.WebApp.Controllers
             return View(product);
         }
 
+
+        private List<CategoryModel> GetCategories()
+        {
+            return context.Categories
+                .Select(c => new CategoryModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList();
+        }
         [HttpGet]
         [Authorize]
         public IActionResult Add()
@@ -67,15 +79,6 @@ namespace Restaurant.WebApp.Controllers
 
             return View(model);
         }
-        private List<CategoryModel> GetCategories()
-        {
-            return context.Categories
-                .Select(c => new CategoryModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList();
-        }
         [HttpPost]
         public IActionResult Add(ProductFormModel model)
         {
@@ -86,6 +89,25 @@ namespace Restaurant.WebApp.Controllers
             }
             var product = service.Create(model);
             return RedirectToAction(nameof(ProductDetails), new { Id = product });
+        }
+        [HttpGet]
+        [Authorize]
+        public IActionResult AddCategory()
+        {
+
+            var model = new CategoryModel();
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult AddCategory(CategoryModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var category = service.CreateCategory(model);
+            return RedirectToAction(nameof(All), new { categoryId = category });
         }
         public IActionResult Edit(int id)
         {
@@ -157,6 +179,36 @@ namespace Restaurant.WebApp.Controllers
             }
 
             this.service.Delete(model.Id);
+
+            return RedirectToAction(nameof(All));
+        }
+        [HttpGet]
+        public IActionResult DeleteCategory(int id)
+        {
+
+            if (!this.service.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var category = this.service.GetCategoryDetails(id);
+
+            var model = new CategoryModel()
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult DeleteCategory(CategoryModel model)
+        {
+            if (!this.service.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            this.service.DeleteCategory(model.Id);
 
             return RedirectToAction(nameof(All));
         }

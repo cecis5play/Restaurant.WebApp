@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Restaurant.WebApp.Data;
+using Restaurant.WebApp.Data.Entities;
+using Restaurant.WebApp.Models;
 using Restaurant.WebApp.Services;
 
 namespace Restaurant.WebApp.Controllers
@@ -19,20 +21,30 @@ namespace Restaurant.WebApp.Controllers
         {
             return View();
         }
-        public IActionResult OrderMenu(string searchString)
+        public IActionResult OrderMenu(int categoryId, string searchString)
         {
-            var products = service.GetAll();
+            ProductsAndCategoriesViewModel model = new ProductsAndCategoriesViewModel();
+            model.Products = service.GetAll();
+            model.Categories = service.GetCategories();
+            //var products = service.GetAll();
             if (searchString != null)
             {
-                products = products
+                model.Products = model.Products
                     .Where(p => p.Name.ToLower().Contains(searchString.ToLower()))
                     .ToList();
             }
+            if (categoryId != 0)
+            {
+                model.Products = model.Products
+                    .Where(c => c.CategoryId == categoryId)
+                    .ToList();
+            }
 
-            return View(products);
+
+
+            return View(model);
         }
-
-        public IActionResult ProductDetails(int id)
+            public IActionResult ProductDetails(int id)
         {
             var product = service.GetProductDetails(id);
 

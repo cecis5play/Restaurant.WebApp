@@ -27,7 +27,7 @@ namespace Restaurant.WebApp.Services
                 CategoryId = p.CategoryId,
             }).ToList();
 
-            
+
 
             return products;
         }
@@ -65,13 +65,13 @@ namespace Restaurant.WebApp.Services
             return entity.Id;
         }
         public List<CategoryModel> GetCategories()
-        { 
-           return context.Categories
-                .Select(c => new CategoryModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList();
+        {
+            return context.Categories
+                 .Select(c => new CategoryModel
+                 {
+                     Id = c.Id,
+                     Name = c.Name
+                 }).ToList();
         }
         public void Edit(ProductFormModel model)
         {
@@ -95,6 +95,36 @@ namespace Restaurant.WebApp.Services
 
             this.context.Products.Remove(product);
             this.context.SaveChanges();
+        }
+        public int CreateCategory(CategoryModel model)
+        {
+            var entity = new Category
+            {
+                Id = model.Id,
+                Name = model.Name,
+            };
+
+            context.Categories.Add(entity);
+            context.SaveChanges();
+            return entity.Id;
+        }
+        public void DeleteCategory(int id)
+        {
+            var category = this.context.Categories.First(h => h.Id == id);
+
+            this.context.Categories.Remove(category);
+            this.context.SaveChanges();
+        }
+        public CategoryModel GetCategoryDetails(int id)
+        { 
+            var category = context.Categories.Where(p => p.Id == id)
+           .Select(p => new CategoryModel
+           {
+               Id = id,
+               Name = p.Name,
+           })
+               .First();
+            return category;
         }
 
     }

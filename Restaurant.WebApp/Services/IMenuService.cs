@@ -9,6 +9,9 @@ namespace Restaurant.WebApp.Services
         public ProductDetailViewModel GetProductDetails(int id);
         public void Edit(ProductFormModel model);
         public int Create(ProductFormModel model);
+        public CategoryModel GetCategoryDetails(int id);
+        public int CreateCategory(CategoryModel model);
+        public void DeleteCategory(int id);
         public List<CategoryModel> GetCategories();
         bool Exists(int id);
         public void Delete(int id);

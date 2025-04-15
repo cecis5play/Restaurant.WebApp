@@ -24,10 +24,12 @@
                         {
                         <li class="recepie-item list-group-item">
                                 <a class="text-decoration-none text-dark" asp-controller="Menu" asp-action="All" asp-route-categoryId="@category.Id">@category.Name</a>
+                                <a class="fs-9 bi bi-trash3 btn btn-danger btn-sm" asp-controller="Menu" asp-action="DeleteCategory" asp-route-id="@category.Id"></a>
                         </li>
                         }
 
                     </ul>
+                    <a asp-action="AddCategory" class="btn btn-sm btn-success p-2">Добави Категория</a>
                 </div>
             </div>
         </div>

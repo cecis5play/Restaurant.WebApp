@@ -1,0 +1,27 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Thank you for your order placed on @Model.OrderDate.ToShortDateString()!</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

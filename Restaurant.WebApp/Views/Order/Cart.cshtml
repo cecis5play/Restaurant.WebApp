@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CartItemViewModel>
+
+<h2>Твоята количка</h2>
+
+@if (Model != null && !Model.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        Количката ви е празна
+    </div>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ястие</th>
+            <th>Цена</th>
+            <th>Количесво</th>
+            <th>Общо</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Price</td> 
+                <td>
+                    <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.Id" b/>
+                        <button type="submit" class="btn btn-link">+</button>
+                    </form>
+                    @item.Quantity
+                    <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.Id" />
+                        <button type="submit" class="btn btn-link">-</button>
+                    </form>
+                </td>
+                <td>@item.Total</td> 
+                <td>
+                    <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger fs-9 bi bi-trash3"></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="PlaceOrder" method="post">
+    <button type="submit" class="btn btn-primary">Направи поръчка</button>
+</form>
+
+}

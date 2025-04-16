@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurant.WebApp.Data.Entities
 {
-    public class Cart
+    public class CartItem
     {
         [Key]
         public int Id { get; set; }
@@ -14,6 +14,6 @@ namespace Restaurant.WebApp.Data.Entities
         public int Quantity { get; set; }
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

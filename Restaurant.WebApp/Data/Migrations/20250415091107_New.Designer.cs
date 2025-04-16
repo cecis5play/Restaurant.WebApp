@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.WebApp.Data;
 
@@ -11,9 +12,11 @@ using Restaurant.WebApp.Data;
 namespace Restaurant.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250415091107_New")]
+    partial class New
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +89,11 @@ namespace Restaurant.WebApp.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -137,6 +145,10 @@ namespace Restaurant.WebApp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -372,6 +384,9 @@ namespace Restaurant.WebApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -396,6 +411,8 @@ namespace Restaurant.WebApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CategoryId");
 
@@ -759,6 +776,13 @@ namespace Restaurant.WebApp.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Restaurant.WebApp.Data.Entities.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -818,8 +842,8 @@ namespace Restaurant.WebApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
+                    b.HasOne("Restaurant.WebApp.Data.Entities.ApplicationUser", "User")
+                        .WithMany("Carts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -831,7 +855,7 @@ namespace Restaurant.WebApp.Data.Migrations
 
             modelBuilder.Entity("Restaurant.WebApp.Data.Entities.Order", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Restaurant.WebApp.Data.Entities.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -861,6 +885,10 @@ namespace Restaurant.WebApp.Data.Migrations
 
             modelBuilder.Entity("Restaurant.WebApp.Data.Entities.Product", b =>
                 {
+                    b.HasOne("Restaurant.WebApp.Data.Entities.ApplicationUser", null)
+                        .WithMany("Order")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Restaurant.WebApp.Data.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
@@ -878,8 +906,8 @@ namespace Restaurant.WebApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
+                    b.HasOne("Restaurant.WebApp.Data.Entities.ApplicationUser", "User")
+                        .WithMany("Reservations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -901,6 +929,15 @@ namespace Restaurant.WebApp.Data.Migrations
 
             modelBuilder.Entity("Restaurant.WebApp.Data.Entities.RoomType", b =>
                 {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Restaurant.WebApp.Data.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Order");
+
                     b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618

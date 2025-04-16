@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Restaurant.WebApp.Data;
+using Restaurant.WebApp.Data.Entities;
 using Restaurant.WebApp.Services;
 
 namespace Restaurant.WebApp
@@ -29,6 +30,7 @@ namespace Restaurant.WebApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddTransient<IMenuService, MenuService>();
             builder.Services.AddTransient<IReserveService, ReserveService>();
+            builder.Services.AddTransient<IOrderService, OrderService>();
             builder.Services.AddTransient<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
@@ -99,7 +101,7 @@ namespace Restaurant.WebApp
                 string email = "manager@manager.com";
                 string password = "Manager123";
 
-                 if (await userManager.FindByEmailAsync(email) == null)
+                if (await userManager.FindByEmailAsync(email) == null)
                 {
                     var user = new IdentityUser();
                     user.UserName = email;

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Restaurant.WebApp.Data.Entities
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -7,9 +8,15 @@
 {
         @if (this.User?.Identity?.IsAuthenticated == true)
         {
+
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="OrderMenu">Поръчай за вкъщи</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark bi bi-cart" asp-area="" asp-controller="Order" asp-action="Cart"></a>
                 </li>
             </ul>
         }

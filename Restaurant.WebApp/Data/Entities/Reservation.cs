@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurant.WebApp.Data.Entities
@@ -21,6 +22,6 @@ namespace Restaurant.WebApp.Data.Entities
         public DateTime ReservationHour { get; set; }
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

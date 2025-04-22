@@ -2,6 +2,7 @@
 using Restaurant.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.WebApp.Models;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace Restaurant.WebApp.Services
 {
@@ -31,7 +32,7 @@ namespace Restaurant.WebApp.Services
         public void PlaceOrder(string userId)
         {
             var cartItems = context.CartItems.Where(ci => ci.UserId == userId).ToList();
-            var order = new Order { UserId = userId, OrderDate = DateTime.Now, OrderItems = new List<OrderItem>() };
+            var order = new Order { UserId = userId, OrderDate = DateTime.Now, OrderItems = new List<OrderItem>() , Status = "Доставя се"};
 
             foreach (var cartItem in cartItems)
             {
@@ -91,6 +92,42 @@ namespace Restaurant.WebApp.Services
                 context.CartItems.Remove(cartItem);
                 context.SaveChanges();
             }
+        }
+        public IEnumerable<Order> GetOrders(string userId)
+        {
+            var orders = context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Where(o => o.UserId == userId)
+                .ToList();
+
+            foreach (var order in orders)
+            {
+              
+                if (order.Status != "Доставена" && (DateTime.Now - order.OrderDate).TotalMinutes > 40)
+                {
+                    order.Status = "Доставена";
+                }
+            }
+            context.SaveChanges();
+            return orders;
+        }
+
+        public void DeleteOrder(int orderId)
+        {
+            var order = context.Orders.Find(orderId);
+            if (order != null && order.Status == "Доставена")
+            {
+                context.Orders.Remove(order);
+                context.SaveChanges();
+            }
+        }
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ToList();
         }
     }
 }

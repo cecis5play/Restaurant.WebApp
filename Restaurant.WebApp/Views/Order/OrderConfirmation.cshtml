@@ -1,18 +1,16 @@
 ﻿@model OrderViewModel
 
-@{
-    ViewData["Title"] = "Order Confirmation";
-}
+<h2>Потвърждение на поръчката</h2>
 
-<h2>@ViewData["Title"]</h2>
-
-<p>Thank you for your order placed on @Model.OrderDate.ToShortDateString()!</p>
+<p>Благодарим Ви за Вашата поръчка, направена на @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")!</p>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
+            <th>Име на продукта</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Общо</th>
         </tr>
     </thead>
     <tbody>
@@ -20,8 +18,16 @@
         {
             <tr>
                 <td>@item.ProductName</td>
+                <td>@item.Price</td>
                 <td>@item.Quantity</td>
+                <td>@item.Total</td>
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right"><strong>Обща цена:</strong></td>
+            <td>@Model.TotalPrice</td>
+        </tr>
+    </tfoot>
 </table>

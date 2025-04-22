@@ -106,9 +106,30 @@ namespace Restaurant.WebApp.Controllers
             {
                 Id = lastOrder.Id,
                 OrderDate = lastOrder.OrderDate,
+                TotalPrice = lastOrder.TotalPrice,
                 OrderItems = lastOrder.OrderItems.Select(oi => new OrderItemViewModel
                 {
                     ProductName = oi.Product.Name, 
+                    Quantity = oi.Quantity,
+                    Price = oi.Product.Price
+                }).ToList()
+            };
+
+            return View(model);
+        }
+        public IActionResult UserOrder()
+        {
+
+            var userId = userManager.GetUserId(User);
+            var lastOrder = orderService.GetLastOrder(userId);
+
+            var model = new OrderViewModel
+            {
+                Id = lastOrder.Id,
+                OrderDate = lastOrder.OrderDate,
+                OrderItems = lastOrder.OrderItems.Select(oi => new OrderItemViewModel
+                {
+                    ProductName = oi.Product.Name,
                     Quantity = oi.Quantity
                 }).ToList()
             };
@@ -134,6 +155,34 @@ namespace Restaurant.WebApp.Controllers
         {
             orderService.RemoveFromCart(cartItemId);
             return RedirectToAction("Cart");
+        }
+        [HttpGet]
+        public IActionResult UserOrders()
+        {
+            var userId = userManager.GetUserId(User);
+            var orders = orderService.GetOrders(userId);
+
+            var model = orders.Select(o => new OrderViewModel
+            {
+                Id = o.Id,
+                OrderDate = o.OrderDate,
+                Status = o.Status,
+                TotalPrice = o.TotalPrice,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel
+                {
+                    ProductName = oi.Product.Name,
+                    Quantity = oi.Quantity
+                }).ToList()
+            }).ToList();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteOrder(int orderId)
+        {
+            orderService.DeleteOrder(orderId);
+            return RedirectToAction("UserOrders");
         }
     }
 }

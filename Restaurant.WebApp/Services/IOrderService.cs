@@ -12,5 +12,8 @@ namespace Restaurant.WebApp.Services
         public void IncreaseQuantity(int cartItemId);
         public void DecreaseQuantity(int cartItemId);
         public void RemoveFromCart(int cartItemId);
+        IEnumerable<Order> GetOrders(string userId);
+        void DeleteOrder(int orderId);
+        public IEnumerable<Order> GetAllOrders();
     }
 }

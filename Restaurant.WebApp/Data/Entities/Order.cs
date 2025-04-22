@@ -14,5 +14,7 @@ namespace Restaurant.WebApp.Data.Entities
         public IdentityUser User { get; set; }
         public DateTime OrderDate { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+        public string? Status { get; set; }
+        public decimal? TotalPrice => OrderItems.Sum(item => item.Product.Price * item.Quantity);
     }
 }

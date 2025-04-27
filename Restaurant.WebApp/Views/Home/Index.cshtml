@@ -1,8 +1,167 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Restaurant.WebApp.Services
+<partial name="_Notification" />
+@model List<Restaurant.WebApp.Data.Entities.SiteReview>
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Добре дошли в Ресторант Уют</h1>
+        <p class="subtitle">Насладете се на вкусна храна в приятна обстановка!</p>
+        <a asp-controller="Menu" asp-action="All" class="btn-main"><i class="fas fa-utensils"></i> Меню</a>
+                @if (User?.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Reserve" asp-action="Index" class="btn-main"><i class="bi bi-calendar-check"></i> Резервирай маса</a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn-main"><i class="fas fa-user-plus"></i> Регистрация</a>
+        }
+    </div>
+</div>
+
+<section class="specialties">
+    <h2>Категории от менюто</h2>
+    <div class="specialty-cards">
+        <a asp-controller="Order" asp-action="OrderMenu" asp-route-categoryId="5" class="card-specialty link-card">
+            <i class="fas fa-pizza-slice"></i>
+            <h4>Пици</h4>
+            <p>Изпечени на място с пресни съставки.</p>
+        </a>
+        <a asp-controller="Order" asp-action="OrderMenu" asp-route-categoryId="2" class="card-specialty link-card">
+            <i class="fas fa-drumstick-bite"></i>
+            <h4>Месни ястия</h4>
+            <p>Сочни предложения с подправки от шефа.</p>
+        </a>
+        <a asp-controller="Order" asp-action="OrderMenu" asp-route-categoryId="8" class="card-specialty link-card">
+            <i class="fas fa-ice-cream"></i>
+            <h4>Десерти</h4>
+            <p>Сладки завършеци на всяко ястие.</p>
+        </a>
+    </div>
+</section>
+
+<section class="specialties">
+    <h2>Топ 5 специалитета</h2>
+    <div class="specialty-cards top-dishes">
+        <div class="dish-card">
+            <img src="https://i.imgur.com/mabeII0.jpg" alt="Пица Маргарита" />
+            <h5>Пица Маргарита</h5>
+            <p class="price">8.90 лв</p>
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" name="productId" value="13" />
+                <button type="submit" class="btn-main-sm">Добави в Кошницата</button>
+            </form>
+        </div>
+        <div class="dish-card">
+            <img src="https://i.imgur.com/Mud7P5Z.jpg" alt="Свинско" />
+            <h5>Свинско с мед и горчица</h5>
+            <p class="price">14.50 лв</p>
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" name="productId" value="5" />
+                <button type="submit" class="btn-main-sm">Добави в Кошницата</button>
+            </form>
+        </div>
+        <div class="dish-card">
+            <img src="https://i.imgur.com/ytAl6b7.jpg" alt="Салата с авокадо" />
+            <h5>Салата с авокадо</h5>
+            <p class="price">6.90 лв</p>
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" name="productId" value="1" />
+                <button type="submit" class="btn-main-sm">Добави в Кошницата</button>
+            </form>
+        </div>
+        <div class="dish-card">
+            <img src="https://i.imgur.com/ucIJMQO.jpg" alt="Тирамису" />
+            <h5>Домашно Тирамису</h5>
+            <p class="price">5.90 лв</p>
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" name="productId" value="30" />
+                <button type="submit" class="btn-main-sm">Добави в Кошницата</button>
+            </form>
+        </div>
+        <div class="dish-card">
+            <img src="https://i.imgur.com/ZG42J7n.jpg" alt="Паста Болонезе" />
+            <h5>Паста Болонезе</h5>
+            <p class="price">12.00 лв</p>
+            <form asp-action="AddToCart" asp-controller="Order" method="post">
+                <input type="hidden" name="productId" value="10" />
+                <button type="submit" class="btn-main-sm">Добави в Кошницата</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <h4><i class="fas fa-phone-alt"></i>Контакти</h4>
+    <p><i class="fas fa-phone"></i> 123-456-789</p>
+    <p><i class="fas fa-envelope"></i> info@restaurantuyut.bg</p>
+    <p><i class="fas fa-map-marker-alt"></i> гр. София, ул. Примерна 1</p>
+    <div class="mt-3">
+        <a asp-controller="Contact" asp-action="Index" class="btn btn-success rounded-pill px-4 py-2">
+            <i class="fas fa-paper-plane me-2"></i> Свържи се с нас
+        </a>
+    </div>
+</footer>
+
+
+<section class="specialties">
+<h2>Какво казват нашите клиенти</h2>
+    <div class="specialty-cards top-dishes">
+@if (Model == null || !Model.Any())
+{
+    <p class="text-muted text-center">Няма все още ревюта за това ястие.</p>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        @foreach (var review in Model)
+        {
+            <div class="dish-card position-relative">
+                <div>
+                    @for (int i = 1; i <= review.Rating; i++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                </div>
+                <p class="text-muted">@review.Comment</p>
+                <small class="text-secondary">@review.CreatedOn.ToString("dd.MM.yyyy")</small>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    <form asp-action="DeleteSiteReview" asp-controller="Home" method="post" class="mt-2">
+                        <input type="hidden" name="reviewId" value="@review.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm rounded-pill mt-2" onclick="return confirm('Сигурни ли сте, че искате да изтриете това ревю?')">
+                            <i class="fas fa-trash"></i> Изтрий
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <section class="specialties">
+        <h2>Остави мнение за нас</h2>
+        <form method="post" asp-action="AddSiteReview">
+            <div class="mb-3 text-center">
+                <label>Оценка:</label><br />
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <label class="me-2">
+                        <input type="radio" name="rating" value="@i" required />
+                        @for (int j = 1; j <= i; j++)
+                        {
+                            <i class="fas fa-star text-warning"></i>
+                        }
+                    </label>
+                }
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea name="comment" class="form-control" placeholder="Вашето мнение..." style="height: 100px;"></textarea>
+                <label>Вашето мнение</label>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 rounded-pill">Изпрати ревю</button>
+        </form>
+    </section>
+    }

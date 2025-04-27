@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
@@ -9,17 +9,23 @@
     }
 }
 
-<h1>Менажирай своя профил</h1>
-
-<div>
-    <h2>Смени настройките на своя профил</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <partial name="_ManageNav" />
+                        </div>
+                        <div class="col-md-9">
+                            <h4 class="fw-bold text-dark mb-3">Вашите настройки</h4>
+                            <hr />
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

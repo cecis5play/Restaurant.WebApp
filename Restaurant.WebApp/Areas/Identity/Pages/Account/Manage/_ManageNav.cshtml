@@ -2,18 +2,31 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item">
-        <a asp-action="UserOrders" asp-controller="Order" class="nav-link">Текущи поръчки</a>
-    </li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Профил</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Майл</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Парола</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Персонални данни</a></li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link">Излез</button>
-        </form>
-    </li>
 
-</ul>
+<div class="list-group shadow-sm rounded-3">
+    <a asp-action="UserOrders" asp-controller="Order" class="list-group-item list-group-item-action">
+        🛒 Мойте поръчки
+    </a>
+    <a asp-action="UserReservations" asp-controller="Reserve" class="list-group-item list-group-item-action">
+        📅 Мойте резервации
+    </a>
+    <a asp-page="./Index" class="list-group-item list-group-item-action @ManageNavPages.IndexNavClass(ViewContext)">
+        👤 Профил
+    </a>
+    <a asp-page="./Email" class="list-group-item list-group-item-action @ManageNavPages.EmailNavClass(ViewContext)">
+        ✉️ Имейл
+    </a>
+    <a asp-page="./ChangePassword" class="list-group-item list-group-item-action @ManageNavPages.ChangePasswordNavClass(ViewContext)">
+        🔒 Смяна на парола
+    </a>
+    <a asp-page="./PersonalData" class="list-group-item list-group-item-action @ManageNavPages.PersonalDataNavClass(ViewContext)">
+        🔐 Лични данни
+    </a>
+    <form asp-area="Identity" asp-page="/Account/Logout"
+          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+          class="text-center mt-3">
+        <button type="submit" class="btn btn-outline-danger w-100 rounded-pill">
+            <i class="bi bi-box-arrow-right me-1"></i> Излез
+        </button>
+    </form>
+</div>

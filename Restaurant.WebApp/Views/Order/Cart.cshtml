@@ -1,56 +1,78 @@
 ﻿@model IEnumerable<CartItemViewModel>
 
-<h2>Твоята количка</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-5 display-5 fw-bold">🛒 Твоята количка</h2>
 
-@if (Model != null && !Model.Any())
-{
-    <div class="alert alert-warning" role="alert">
-        Количката ви е празна
-    </div>
-}
-else
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ястие</th>
-            <th>Цена</th>
-            <th>Количесво</th>
-            <th>Общо</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Price</td> 
-                <td>
-                    <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
-                        <input type="hidden" name="cartItemId" value="@item.Id" b/>
-                        <button type="submit" class="btn btn-link">+</button>
-                    </form>
-                    @item.Quantity
-                    <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
-                        <input type="hidden" name="cartItemId" value="@item.Id" />
-                        <button type="submit" class="btn btn-link">-</button>
-                    </form>
-                </td>
-                <td>@item.Total</td> 
-                <td>
-                    <form asp-action="RemoveFromCart" method="post" style="display:inline;">
-                        <input type="hidden" name="cartItemId" value="@item.Id" />
-                            <button type="submit" class="btn btn-danger fs-9 bi bi-trash3"></button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (Model != null && !Model.Any())
+    {
+        <div class="text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Празна количка" style="max-width: 200px; margin-bottom: 20px;">
+            <div class="alert alert-warning rounded-pill shadow-sm px-4 py-2 d-inline-block">
+                <i class="fas fa-shopping-cart me-2"></i>Количката ви е празна
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover text-center align-middle">
+                        <thead class="table-light">
+                            <tr class="align-middle">
+                                <th class="text-uppercase">Ястие</th>
+                                <th class="text-uppercase">Цена</th>
+                                <th class="text-uppercase">Количество</th>
+                                <th class="text-uppercase">Общо</th>
+                                <th class="text-uppercase">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@item.ProductName</td>
+                                    <td class="text-success fw-semibold">@item.Price лв</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <form asp-action="DecreaseQuantity" method="post">
+                                                <input type="hidden" name="cartItemId" value="@item.Id" />
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm rounded-circle">–</button>
+                                            </form>
+                                            <span class="fw-bold fs-6">@item.Quantity</span>
+                                            <form asp-action="IncreaseQuantity" method="post">
+                                                <input type="hidden" name="cartItemId" value="@item.Id" />
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm rounded-circle">+</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold">@item.Total лв</td>
+                                    <td>
+                                        <form asp-action="RemoveFromCart" method="post">
+                                            <input type="hidden" name="cartItemId" value="@item.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle" title="Изтрий">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-<form asp-action="PlaceOrder" method="post">
-    <button type="submit" class="btn btn-primary">Направи поръчка</button>
-</form>
+        <div class="text-center mt-5">
+            <div class="fs-4 mb-3 fw-bold text-dark">
+                Обща цена: <span class="text-success">@ViewBag.TotalPrice лв</span>
+            </div>
 
-}
+            <form asp-action="PlaceOrder" method="post">
+                <button type="submit" class="btn btn-main btn-lg rounded-pill shadow px-5 py-2">
+                    <i class="fas fa-credit-card me-2"></i> Завърши поръчката
+                </button>
+            </form>
+        </div>
+    }
+</div>

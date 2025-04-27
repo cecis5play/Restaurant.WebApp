@@ -1,13 +1,37 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model ProductDetailViewModel
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center my-4 text-pink">@ViewBag.Title</h2>
 
-
-<div class="card text-center mx-auto" style="width: 30rem;">
+<div class="card text-center mx-auto shadow-sm" style="width: 30rem;">
+    <img class="card-img-top" src="@Model.ImageUrl/100px180/" alt="Product Image" style="border-radius: 10px;" />
     <div class="card-body">
-        <img class="card-img-top" src="@Model.ImageUrl" alt="Product Image">
-        <h5 class="card-title" style="font-size: xxx-large;font-family: ui-monospace;">@Model.Name</h5>
-        <p class="card-text" style="  font-size: xx-large;">@Model.Description</p>
+        <h5 class="card-title" style="font-size: 2.5rem; font-family: 'Arial', sans-serif; color: #343a40;">@Model.Name</h5>
+        <p class="card-text" style="font-size: 1.25rem; color: #6c757d;">@Model.Description</p>
     </div>
- </div>
+</div>
+
+<style>
+    /* Добавете стилове по желание */
+    h2 {
+        font-weight: bold;
+        color: #495057; /* Тъмен сив за заглавия */
+    }
+
+    .shadow-sm {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Лека сянка */
+    }
+
+    .card-body {
+        padding: 20px; /* Подобрена отстъпка в тялото на картата */
+    }
+
+    .btn {
+        transition: background-color 0.3s, transform 0.2s; /* Плавни преходи за бутоните */
+    }
+
+        .btn:hover {
+            background-color: #0056b3; /* Промяна на фона при задържане на бутона */
+            transform: translateY(-2px); /* Леко повдигане на бутона при hover */
+        }
+</style>

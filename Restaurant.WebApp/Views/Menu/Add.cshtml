@@ -1,45 +1,63 @@
 ﻿@model ProductFormModel
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
-<div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Name">Какво е ястието</label>
-                <input asp-for="Name" class="form-control" placeholder="Ястие...">
-                <span asp-validation-for="Name" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description">Описание</label>
-                <textarea asp-for="Description" rows="4" class="form-control"
-                          placeholder="..."></textarea>
-                <span asp-validation-for="Description" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price">Цена</label>
-                <input asp-for="Price" class="form-control" placeholder="Цената на ястието...">
-                <span asp-validation-for="Price" class="small text-danger"></span>
-            </div>
-                        <div class="form-group">
-                <label asp-for="ImageUrl">URL на снимката</label>
-                <input asp-for="ImageUrl" class="form-control">
-                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
-            </div>
+@{
+    ViewData["Title"] = "Добави ястие";
+}
 
-            <div class="form-group">
-                <label asp-for="CategoryId">Категория на ястието</label>
-                <select asp-for="CategoryId" class="form-control">
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CategoryId" class="small text-danger"></span>
-            </div>
+<h2 class="text-center display-5 fw-bold my-4 text-dark">@ViewData["Title"]</h2>
 
-            <input class="btn btn-primary mt-3" type="submit" value="Запази" />
-        </form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-success text-white rounded-top-4">
+                    <h4 class="mb-0 text-center"><i class="fas fa-utensils me-2"></i>Ново ястие</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" class="needs-validation" novalidate>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Име на ястието" />
+                            <label asp-for="Name">Име на ястието</label>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="Description" class="form-control" placeholder="Описание" style="height: 120px;"></textarea>
+                            <label asp-for="Description">Описание</label>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Price" class="form-control" placeholder="Цена" />
+                            <label asp-for="Price">Цена (лв)</label>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="ImageUrl" class="form-control" placeholder="URL на снимка" />
+                            <label asp-for="ImageUrl">URL на снимка</label>
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <select asp-for="CategoryId" class="form-select">
+                                <option value="">Избери категория</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                            <label asp-for="CategoryId">Категория</label>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 rounded-pill shadow-sm">
+                            <i class="fas fa-save me-2"></i>Запази ястието
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

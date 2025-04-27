@@ -16,7 +16,6 @@ namespace Restaurant.WebApp.Models
         public int PersonNumber { get; set; }
         public int? ChildrenNumber { get; set; }
         public int RoomTypeId { get; set; }
-        public DateTime ReservationHour { get; set; }
         public IEnumerable<RoomTypeViewModel> RoomTypes { get; set; }
     }
 }

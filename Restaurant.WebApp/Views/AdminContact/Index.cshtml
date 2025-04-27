@@ -1,0 +1,61 @@
+﻿@model List<Restaurant.WebApp.Data.Entities.ContactMessage>
+
+<partial name="_Notification" />
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Получени съобщения</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Няма получени съобщения.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Имейл</th>
+                        <th>Съобщение</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var msg in Model)
+                    {
+                        <tr>
+                            <td>@msg.Email</td>
+                            <td>@msg.Message</td>
+                            <td>@msg.CreatedOn.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                @if (msg.IsHandled)
+                                {
+                                    <span class="badge bg-success">Обработено</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Необработено</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!msg.IsHandled)
+                                {
+                                    <form asp-action="MarkAsHandled" method="post">
+                                        <input type="hidden" name="id" value="@msg.Id" />
+                                        <button type="submit" class="btn btn-outline-success btn-sm rounded-pill">
+                                            Маркирай като обработено
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

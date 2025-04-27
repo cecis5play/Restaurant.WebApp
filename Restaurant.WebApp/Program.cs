@@ -31,6 +31,8 @@ namespace Restaurant.WebApp
             builder.Services.AddTransient<IMenuService, MenuService>();
             builder.Services.AddTransient<IReserveService, ReserveService>();
             builder.Services.AddTransient<IOrderService, OrderService>();
+            builder.Services.AddTransient<IReviewService, ReviewService>();
+            builder.Services.AddTransient<ISiteReviewService, SiteReviewService>();
             builder.Services.AddTransient<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 

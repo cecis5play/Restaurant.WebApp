@@ -74,6 +74,8 @@ namespace Restaurant.WebApp.Controllers
                 Quantity = ci.Quantity
             }).ToList();
 
+            ViewBag.TotalPrice = model.Sum(item => item.Total);
+
             return View(model);
         }
 
@@ -181,8 +183,10 @@ namespace Restaurant.WebApp.Controllers
         [HttpPost]
         public IActionResult DeleteOrder(int orderId)
         {
-            orderService.DeleteOrder(orderId);
-            return RedirectToAction("UserOrders");
+
+                orderService.DeleteOrder(orderId);
+                return RedirectToAction("UserOrders");
+            
         }
     }
 }

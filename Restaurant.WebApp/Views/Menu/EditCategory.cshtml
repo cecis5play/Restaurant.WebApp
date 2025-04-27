@@ -1,0 +1,53 @@
+﻿@model CategoryModel
+
+<h2 class="text-center my-4">@ViewBag.Title</h2>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-lg-8 col-xl-6">
+        <div class="card shadow-sm">
+            <div class="card-header text-white bg-dark">
+                <h4 class="mb-0">Редактирай категория</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="Name" class="form-label">Име на категория</label>
+                        <input asp-for="Name" class="form-control" placeholder="Име на категория..." />
+                        <span asp-validation-for="Name" class="small text-danger"></span>
+                    </div>
+
+                    <button class="btn btn-success btn-lg mt-3" type="submit">Запази</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Персонализирани стилове */
+    h2 {
+        color: #343a40; /* Тъмен сив цвят за заглавия */
+    }
+
+    .card-header {
+        background-color: #343a40; /* Тъмен фон за заглавието на картата */
+    }
+
+    .form-label {
+        font-weight: bold; /* Увеличена дебелина на шрифта за заглавията на полето */
+        color: #495057; /* Цвят на заглавията на полето */
+    }
+
+    .form-control {
+        border-radius: 0.5rem; /* Закръглени ъгли на полетата */
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Лека сянка */
+    }
+</style>

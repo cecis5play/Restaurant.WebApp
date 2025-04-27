@@ -3,38 +3,54 @@
     ViewBag.Title = "Детайли за вашата резервация";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h2 class="display-6 fw-bold text-dark">@ViewBag.Title</h2>
+        <p class="text-muted">Попълнете формата по-долу, за да запазите своята маса в ресторанта.</p>
+    </div>
 
-<div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post" asp-controller="Reserve" asp-action="Add">
-            <div class="form-group">
-                <label asp-for="ReservationDate">Дата</label>
-                <input asp-for="ReservationDate" class="form-control" placeholder="Дата...">
-                <span asp-validation-for="ReservationDate" class="small text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="post" asp-controller="Reserve" asp-action="Add">
+                        <div class="mb-3">
+                            <label asp-for="ReservationDate" class="form-label">Дата и час</label>
+                            <input asp-for="ReservationDate" type="datetime-local" class="form-control rounded-pill" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" step="60" />
+                            <span asp-validation-for="ReservationDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PersonNumber" class="form-label">Брой възрастни</label>
+                            <input asp-for="PersonNumber" class="form-control rounded-pill" placeholder="напр. 2" />
+                            <span asp-validation-for="PersonNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ChildrenNumber" class="form-label">Брой деца до 12г.</label>
+                            <input asp-for="ChildrenNumber" class="form-control rounded-pill" placeholder="напр. 1" />
+                            <span asp-validation-for="ChildrenNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="RoomTypeId" class="form-label">Изберете зала</label>
+                            <select asp-for="RoomTypeId" class="form-select rounded-pill">
+                                @foreach (var item in Model.RoomTypes)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="RoomTypeId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-main btn-lg rounded-pill">
+                                <i class="bi bi-calendar-check me-2"></i> Запази резервация
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PersonNumber">Брой хора</label>
-                <input asp-for="PersonNumber" class="form-control" placeholder="Колко човека?...">
-                <span asp-validation-for="PersonNumber" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChildrenNumber">Брой деца до 12г.</label>
-                <input asp-for="ChildrenNumber" class="form-control" placeholder="Колко деца?...">
-                <span asp-validation-for="ChildrenNumber" class="small text-danger"></span>
-            </div>
-            <label>Избор на зала</label>
-            <select class="form-select" aria-label="Default select example" asp-for="RoomTypeId">
-                @foreach (var item in Model.RoomTypes)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
-
-
-            </select>
-
-            <input class="btn btn-primary mt-3" type="submit" value="Добави" />
-        </form>
+        </div>
     </div>
 </div>

@@ -5,43 +5,58 @@
     ViewData["Title"] = "Вход";
 }
 
-<h1 style="padding-left: 350px;">@ViewData["Title"]</h1>
-<div class="row" style="padding-left: 350px;">
-    <div class="col-md-7">
-        <section>
-            <form id="account" method="post">
-                <h2>Влез си в профила</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="парола" />
-                    <label asp-for="Input.Password" class="form-label">Парола</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        Запомни ме?
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Влез</button>
-                </div>
-                <div>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Направи си плофил</a>
-                    </p>
-                </div>
-            </form>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="display-6 fw-bold text-dark">🔑 Вход</h2>
+        <p class="text-muted">Влез в профила си и се наслади на нашите услуги.</p>
+    </div>
 
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form id="account" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3" role="alert"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.Email" class="form-label">Имейл адрес</label>
+                            <input asp-for="Input.Email" class="form-control rounded-pill" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.Password" class="form-label">Парола</label>
+                            <input asp-for="Input.Password" type="password" class="form-control rounded-pill" autocomplete="current-password" aria-required="true" placeholder="••••••" />
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check mb-4 text-start">
+                            <input class="form-check-input" asp-for="Input.RememberMe" id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe">Запомни ме</label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button id="login-submit" type="submit" class="btn btn-main btn-lg rounded-pill">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Влез
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-1">
+                            Нямате акаунт? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none text-primary fw-bold">Регистрирай се</a>
+                        </p>
+                        <p>
+                            <a asp-page="./ForgotPassword" class="text-decoration-none text-secondary">Забравена парола?</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

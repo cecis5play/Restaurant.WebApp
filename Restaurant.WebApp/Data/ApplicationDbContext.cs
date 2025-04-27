@@ -17,6 +17,9 @@ namespace Restaurant.WebApp.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DishReview> DishReviews { get; set; }
+        public DbSet<SiteReview> SiteReviews { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
         public RoomType InsideRoom { get; set; } = null;
         public RoomType OutsideRoom { get; set; } = null;
         public Category Salads { get; set; } = null;

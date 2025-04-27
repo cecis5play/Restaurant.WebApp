@@ -4,34 +4,46 @@
     ViewData["Title"] = "Регистрирай се";
 }
 
-<h1 style="padding-left: 350px;">@ViewData["Title"]</h1>
-
-<div class="row" style="padding-left: 350px;">
-    <div class="col-md-7">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Направи си нов профил</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="парола" />
-                <label asp-for="Input.Password">Парола</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="парола" />
-                <label asp-for="Input.ConfirmPassword">Потвърди Паролата</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Регистрирай се</button>
-        </form>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="display-6 fw-bold text-dark">📝 Регистрирай се</h2>
+        <p class="text-muted">Създай своя акаунт и се присъедини към нашето семейство.</p>
     </div>
-    <div class="col-md-6 col-md-offset-2">
 
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3" role="alert"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.Email" class="form-label">Имейл адрес</label>
+                            <input asp-for="Input.Email" class="form-control rounded-pill" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.Password" class="form-label">Парола</label>
+                            <input asp-for="Input.Password" type="password" class="form-control rounded-pill" autocomplete="new-password" aria-required="true" placeholder="••••••" />
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.ConfirmPassword" class="form-label">Потвърди паролата</label>
+                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control rounded-pill" autocomplete="new-password" aria-required="true" placeholder="••••••" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button id="registerSubmit" type="submit" class="btn btn-main btn-lg rounded-pill">
+                                <i class="bi bi-person-plus-fill me-2"></i> Регистрирай се
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

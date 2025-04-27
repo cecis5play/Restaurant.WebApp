@@ -19,7 +19,6 @@ namespace Restaurant.WebApp.Data.Entities
         [ForeignKey(nameof(RoomType))]
         public int RoomTypeId { get; set; }
         public RoomType RoomType { get; set; }
-        public DateTime ReservationHour { get; set; }
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }

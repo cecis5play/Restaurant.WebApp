@@ -1,57 +1,74 @@
 ﻿@model IEnumerable<OrderViewModel>
-<partial name="_Notification" />
-<h2>Управление на поръчките</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Клиент</th>
-            <th>Дата и час на поръчка</th>
-            <th>Статус на доставка</th>
-            <th>Артикули</th>
-            <th>Обща цена</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.CustomerName</td>
-                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <form asp-action="UpdateStatus" method="post"> 
-                        <input type="hidden" name="orderId" value="@order.Id" />
-                        @Html.DropDownList("status", new SelectList(new List<SelectListItem>
-                    {
-                    new SelectListItem { Text = "", Value = "", Selected = order.Status == "" },
-                    new SelectListItem { Text = "Доставя се", Value = "Доставя се", Selected = order.Status == "Доставя се" },
-                    new SelectListItem { Text = "Доставена", Value = "Доставена", Selected = order.Status == "Доставена" }
-                    }, "Value", "Text"), new { onchange = "this.form.submit();" })
-                    </form>
-                </td>
-                <td>
-                    <ul>
-                        @foreach (var item in order.OrderItems)
-                        {
-                            <li>@item.ProductName - Количество: @item.Quantity</li>
-                        }
-                    </ul>
-                </td>
-                <td>@order.TotalPrice</td>
-                <td>
-                    <form asp-action="Delete" method="post">
-                        <input type="hidden" name="orderId" value="@order.Id" />
-                        <button type="submit" class="btn btn-danger">Изтрий</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-@if (!Model.Any())
-{
-    <div class="alert alert-warning" role="alert">
-        Нямате направени поръчки.
-    </div>
-}
+<partial name="_Notification" />
+<div class="container my-5">
+    <h2 class="text-center mb-4 display-5 fw-bold">📦 Управление на поръчките</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/5957/5957229.png" alt="Няма поръчки" style="max-width: 180px; margin-bottom: 20px;">
+            <div class="alert alert-warning rounded-pill shadow-sm px-4 py-2 d-inline-block">
+                <i class="fas fa-inbox me-2"></i>Все още няма направени поръчки.
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-striped text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Клиент</th>
+                                <th>Дата</th>
+                                <th>Статус</th>
+                                <th>Продукти</th>
+                                <th>Общо</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@order.CustomerName</td>
+                                    <td>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>
+                                        <form asp-action="UpdateStatus" method="post">
+                                            <input type="hidden" name="orderId" value="@order.Id" />
+                                            @Html.DropDownList("status", new SelectList(new List<SelectListItem>
+                                    {
+                                    new SelectListItem { Text = "Изберете статус", Value = "", Selected = order.Status == "" },
+                                    new SelectListItem { Text = "Доставя се", Value = "Доставя се", Selected = order.Status == "Доставя се" },
+                                    new SelectListItem { Text = "Доставена", Value = "Доставена", Selected = order.Status == "Доставена" }
+                                    }, "Value", "Text"), new { onchange = "this.form.submit();", @class = "form-select form-select-sm rounded-pill" })
+                                        </form>
+                                    </td>
+                                    <td class="text-start">
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach (var item in order.OrderItems)
+                                            {
+                                                <li>@item.ProductName <span class="text-muted">x @item.Quantity</span></li>
+                                            }
+                                        </ul>
+                                    </td>
+                                    <td class="fw-bold">@order.TotalPrice лв</td>
+                                    <td>
+                                        <form asp-action="Delete" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете тази поръчка?');">
+                                            <input type="hidden" name="orderId" value="@order.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                                                <i class="fas fa-trash"></i> Изтрий
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

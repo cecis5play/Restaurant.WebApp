@@ -116,11 +116,8 @@ namespace Restaurant.WebApp.Services
         public void DeleteOrder(int orderId)
         {
             var order = context.Orders.Find(orderId);
-            if (order != null && order.Status == "Доставена")
-            {
                 context.Orders.Remove(order);
                 context.SaveChanges();
-            }
         }
         public IEnumerable<Order> GetAllOrders()
         {
@@ -128,6 +125,12 @@ namespace Restaurant.WebApp.Services
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .ToList();
+        }
+        public int GetCartItemCount(string userId)
+        {
+            return context.CartItems
+                .Where(c => c.UserId == userId)
+                .Sum(c => c.Quantity);
         }
     }
 }

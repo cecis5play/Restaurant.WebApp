@@ -1,18 +1,68 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model ProductDetailViewModel
+﻿@model ProductDetailViewModel
+<partial name="_Notification" />
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="@Model.ImageUrl" class="card-img-top object-fit-cover" style="max-height: 400px; object-fit: cover;" alt="@Model.Name">
+                <div class="card-body p-4">
+                    <h1 class="card-title display-5 text-center mb-3">@Model.Name</h1>
+                    <p class="text-center text-muted mb-4 fs-5">@Model.Description</p>
 
-<h2 class="text-center">@ViewBag.Title</h2>
 
+                    <div class="text-center mb-3">
+                        <span class="badge bg-success fs-5 p-2">Цена: @Model.Price лв</span>
+                    </div>
 
-<div class="card text-center mx-auto" style="width: 30rem;">
-    <div class="card-body">
-        <img class="card-img-top" src="@Model.ImageUrl" alt="Product Image">
-        <h5 class="card-title" style="font-size: xxx-large;font-family: ui-monospace;">@Model.Name</h5>
-        <p class="card-text" style="  font-size: xx-large;">@Model.Description</p>
-                                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                        {
-        <a class="fs-4 bi bi-pencil-square btn btn-success" asp-controller="Menu" asp-action="Edit" asp-route-id="@Model.Id"></a>
-        <a class="fs-4 bi bi-trash3 btn btn-danger" asp-controller="Menu" asp-action="Delete" asp-route-id="@Model.Id"></a>
-                        }
+                    <div class="text-center mt-4">
+                        <a asp-controller="Menu" asp-action="All" class="btn btn-main">
+                            <i class="fas fa-arrow-left me-1"></i> Обратно към менюто
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
- </div>
+</div>
+<h4 class="text-center mt-5">Ревюта</h4>
+
+<partial name="~/Views/Review/_DishReviewsPartial.cshtml" model="@Model.Reviews" />
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title text-center mb-3">Остави своето ревю</h5>
+            <form method="post" asp-controller="Review" asp-action="AddReview">
+                <input type="hidden" name="ProductId" value="@Model.Id" />
+
+                <div class="mb-3 text-center">
+                    <label for="rating">Оценка:</label><br />
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <label class="me-2">
+                            <input type="radio" name="Rating" value="@i" required />
+                            @for (int j = 1; j <= i; j++)
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                        </label>
+                    }
+                </div>
+
+                <div class="form-floating mb-3">
+                    <textarea name="Comment" class="form-control" placeholder="Вашият коментар..." style="height: 100px;"></textarea>
+                    <label>Коментар (незадължителен)</label>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 rounded-pill">Изпрати ревю</button>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center mt-3">
+        <p>За да оставите ревю, моля <a asp-area="Identity" asp-page="/Account/Login" class="text-primary">влезте</a> в профила си.</p>
+    </div>
+}

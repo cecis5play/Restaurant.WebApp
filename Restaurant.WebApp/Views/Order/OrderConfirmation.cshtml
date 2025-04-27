@@ -1,33 +1,55 @@
 ﻿@model OrderViewModel
 
-<h2>Потвърждение на поръчката</h2>
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Потвърдена поръчка" style="max-width: 120px;" class="mb-3">
+        <h1 class="fw-bold text-success">🎉 Поръчката ви е приета успешно!</h1>
+        <p class="lead text-muted">Благодарим ви, <strong>@Model.CustomerName</strong>, за вашата поръчка на <strong>@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</strong>.</p>
+    </div>
 
-<p>Благодарим Ви за Вашата поръчка, направена на @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")!</p>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light border-bottom">
+            <h4 class="mb-0 fw-semibold">Детайли на поръчката</h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-striped text-center align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Продукт</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Общо</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderItems)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Price лв</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Total лв</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold">Обща цена:</td>
+                            <td class="fw-bold text-success">@Model.TotalPrice лв</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Име на продукта</th>
-            <th>Цена</th>
-            <th>Количество</th>
-            <th>Общо</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
-            <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Price</td>
-                <td>@item.Quantity</td>
-                <td>@item.Total</td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right"><strong>Обща цена:</strong></td>
-            <td>@Model.TotalPrice</td>
-        </tr>
-    </tfoot>
-</table>
+    <div class="text-center mt-5">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-main btn-lg rounded-pill me-2">
+            <i class="fas fa-home me-2"></i> Начална страница
+        </a>
+        <a asp-action="UserOrders" asp-controller="Order" class="btn btn-outline-secondary btn-lg rounded-pill">
+            <i class="fas fa-clipboard-list me-2"></i> Моите поръчки
+        </a>
+    </div>
+</div>

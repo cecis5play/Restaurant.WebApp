@@ -1,36 +1,38 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Restaurant.WebApp.Data.Entities
+@using Restaurant.WebApp.Services
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IOrderService orderService
+@{
+    var userId = UserManager.GetUserId(User);
+    var cartCount = SignInManager.IsSignedIn(User) ? orderService.GetCartItemCount(userId) : 0;
+}
 
-<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-        @if (this.User?.Identity?.IsAuthenticated == true)
-        {
-
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="OrderMenu">Поръчай за вкъщи</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark bi bi-cart" asp-area="" asp-controller="Order" asp-action="Cart"></a>
-                </li>
-            </ul>
-        }
     <li class="nav-item">
-            <a class="nav-link text-dark bi bi-person-fill" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
+        <a class="nav-link" asp-controller="Order" asp-action="OrderMenu"><i class="fas fa-truck me-1"></i>Поръчай</a>
+    </li>
+    <li class="nav-item position-relative">
+        <a class="nav-link cart-icon" asp-controller="Order" asp-action="Cart">
+            <i class="fas fa-shopping-cart"></i>
+            @if (cartCount > 0)
+            {
+                <span class="cart-badge">@cartCount</span>
+            }
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Профил"><i class="fas fa-user-circle"></i></a>
     </li>
 }
 else
 {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Вход</a>
-        </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Регистрирай се</a>
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt me-1"></i>Вход</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus me-1"></i>Регистрация</a>
     </li>
 }
-</ul>

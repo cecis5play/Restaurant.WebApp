@@ -1,13 +1,37 @@
 ﻿@model CategoryModel
 
+@{
+    ViewData["Title"] = "Изтриване на категория";
+}
 
+<h2 class="text-center display-6 fw-bold my-4 text-danger">
+    <i class="fas fa-trash-alt me-2"></i>@ViewData["Title"]
+</h2>
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
-<form asp-controller="Menu" asp-action="Delete">
-    <h2 class="text-center">Сигурни ли сте, че искате да изтриете @Model.Name</h2>
-    <div class="text-center">
-        <input type="submit" value="Да" class="ml-2 btn btn-danger text-center" />
-        <a class="ml-2 btn btn-danger" asp-controller="Menu" asp-action="All" asp-route-categoryId="@Model.Id">Не</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 text-center">
+                    <h4 class="mb-4 text-dark">
+                        Сигурни ли сте, че искате да изтриете категорията:
+                        <span class="fw-bold text-danger">„@Model.Name“</span>?
+                    </h4>
+
+                    <form asp-controller="Menu" asp-action="DeleteCategory" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-4 shadow-sm">
+                                <i class="fas fa-check-circle me-2"></i>Да, изтрий
+                            </button>
+                            <a asp-controller="Menu" asp-action="All"
+                               class="btn btn-outline-secondary btn-lg rounded-pill px-4 shadow-sm">
+                                <i class="fas fa-times-circle me-2"></i>Откажи
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</div>

@@ -5,39 +5,55 @@
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="email-form" method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            @if (Model.IsEmailConfirmed)
-            {
-                <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Моля напишете своя мейл." disabled />
-                        <div class="input-group-append">
-                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="display-6 fw-bold text-dark">✉️ @ViewData["Title"]</h2>
+        <p class="text-muted">Актуализирайте имейл адреса си, за да поддържате акаунта си защитен и актуален.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <partial name="_StatusMessage" for="StatusMessage" />
+
+                    <form id="email-form" method="post">
+                        
+
+                        <div class="mb-4">
+                            <label asp-for="Email" class="form-label">Текущ имейл</label>
+                            <div class="input-group">
+                                <input asp-for="Email" class="form-control rounded-start-pill" disabled placeholder="Вашият текущ имейл" />
+                                @if (Model.IsEmailConfirmed)
+                                {
+                                    <span class="input-group-text bg-success text-white rounded-end-pill">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="input-group-text bg-warning text-dark rounded-end-pill">
+                                        <i class="bi bi-exclamation-circle-fill"></i>
+                                    </span>
+                                }
+                            </div>
                         </div>
-                    <label asp-for="Email" class="form-label"></label>
+
+                        <div class="mb-4">
+                            <label asp-for="Input.NewEmail" class="form-label">Нов имейл</label>
+                            <input asp-for="Input.NewEmail" class="form-control rounded-pill" autocomplete="email" placeholder="Въведете нов имейл" aria-required="true" />
+                            <span asp-validation-for="Input.NewEmail" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-main btn-lg rounded-pill">
+                                <i class="bi bi-envelope-paper-fill me-2"></i> Смени имейл
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
-            }
-            else
-            {
-                <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Моля напишете своя мейл." disabled />
-                    <label asp-for="Email" class="form-label">Сегашен майл</label>
-                </div>
-            }
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Моля напишете новия мейл." />
-                <label asp-for="Input.NewEmail" class="form-label">Нов майл</label>
-                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Смени мейл</button>
-        </form>
+        </div>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

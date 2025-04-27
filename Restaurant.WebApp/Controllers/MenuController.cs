@@ -10,13 +10,15 @@ namespace Restaurant.WebApp.Controllers
     public class MenuController : Controller
     {
         private readonly IMenuService service;
+        private readonly IReviewService reviewService;
         public readonly ApplicationDbContext context;
 
 
-        public MenuController(IMenuService service, ApplicationDbContext context)
+        public MenuController(IMenuService service, ApplicationDbContext context, IReviewService reviewService)
         {
             this.service = service;
             this.context = context;
+            this.reviewService = reviewService;
         }
         public IActionResult Index()
         {
@@ -47,15 +49,27 @@ namespace Restaurant.WebApp.Controllers
         }
         public IActionResult ProductDetails(int id)
         {
-            var product = service.GetProductDetails(id);
+            var product = service.GetProductDetails(id); 
 
             if (product == null)
             {
                 return BadRequest();
             }
-            return View(product);
-        }
 
+            var reviews = reviewService.GetReviewsByProductIdAsync(id).Result; 
+
+            var model = new ProductDetailViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                Reviews = reviews 
+            };
+
+            return View(model);
+        }
 
         private List<CategoryModel> GetCategories()
         {
@@ -150,6 +164,41 @@ namespace Restaurant.WebApp.Controllers
 
 
         }
+        public IActionResult EditCategory(int id)
+        {
+            var category = this.service.GetCategoryDetails(id);
+
+            if (!this.service.CategoryExists(id))
+            {
+                return BadRequest();
+            }
+
+            var categoryModel = new CategoryModel()
+            {
+                Id = category.Id,
+                Name = category.Name,
+
+            };
+
+            return View(categoryModel);
+        }
+        [HttpPost]
+        public IActionResult EditCategory(CategoryModel model, int id)
+        {
+            if (!this.service.Exists(id))
+            {
+                return BadRequest();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            this.service.EditCategory(model);
+
+            return RedirectToAction(nameof(All));
+
+
+        }
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -186,7 +235,7 @@ namespace Restaurant.WebApp.Controllers
         public IActionResult DeleteCategory(int id)
         {
 
-            if (!this.service.Exists(id))
+            if (!this.service.CategoryExists(id))
             {
                 return BadRequest();
             }
@@ -203,7 +252,7 @@ namespace Restaurant.WebApp.Controllers
         [HttpPost]
         public IActionResult DeleteCategory(CategoryModel model)
         {
-            if (!this.service.Exists(model.Id))
+            if (!this.service.CategoryExists(model.Id))
             {
                 return BadRequest();
             }

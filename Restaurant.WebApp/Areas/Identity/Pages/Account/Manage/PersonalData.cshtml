@@ -5,17 +5,30 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="display-6 fw-bold text-dark">🔐 @ViewData["Title"]</h2>
+        <p class="text-muted">Управление на вашите лични данни и акаунт.</p>
+    </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Вашият акаунт има персонални данни</p>
-        <p>
-            <strong>Изтривайки тези данни ще изтриете вашият акаун перманентно</strong>
-        </p>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Изтрий</a>
-        </p>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <p class="lead mb-4">Вашият акаунт съдържа персонални данни, които можете да управлявате.</p>
+
+                    <div class="alert alert-warning rounded-3">
+                        <strong>⚠️ Внимание:</strong> Изтриването на вашия акаунт ще бъде <u>перманентно</u> и няма да може да бъде възстановено.
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger btn-lg rounded-pill">
+                            <i class="bi bi-trash-fill me-2"></i> Изтрий акаунта
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Restaurant.WebApp.Data;
 using Restaurant.WebApp.Data.Entities;
 using Restaurant.WebApp.Models;
@@ -39,6 +40,7 @@ namespace Restaurant.WebApp.Services
            {
                Id = id,
                Name = p.Name,
+               Price = p.Price,
                Description = p.Description,
                ImageUrl = p.ImageUrl
            })
@@ -86,8 +88,16 @@ namespace Restaurant.WebApp.Services
 
             this.context.SaveChanges();
         }
-        public bool Exists(int id)
-   => this.context.Products.Any(v => v.Id == id);
+        public void EditCategory(CategoryModel category)
+        {
+            var product = this.context.Categories.Where(v => v.Id == category.Id).First();
+
+            product.Name = category.Name;
+
+            this.context.SaveChanges();
+        }
+        public bool Exists(int id)  => this.context.Products.Any(v => v.Id == id);
+        public bool CategoryExists(int id) => this.context.Categories.Any(v => v.Id == id);
 
         public void Delete(int id)
         {

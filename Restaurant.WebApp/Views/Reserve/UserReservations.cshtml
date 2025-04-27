@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ReservationViewModel>
+
+<div class="container my-5">
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <div class="mb-4">
+            <a asp-area="" asp-controller="Admin" asp-action="AllReservations" class="btn btn-success">
+                <i class="fas fa-users-cog me-2"></i> Управление на клиентски резервации
+            </a>
+        </div>
+    }
+<div class="container my-5">
+    <h2 class="text-center mb-4 display-6 fw-bold">Моите резервации</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="text-center">
+            <div class="alert alert-success d-inline-block rounded-pill px-4 py-2 shadow-sm mb-4">
+                <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+            </div>
+        </div>
+    }
+    @if (TempData["ReservationCreated"] != null)
+    {
+        <div class="text-center">
+            <div class="alert alert-primary d-inline-block rounded-pill px-4 py-2 shadow-sm mb-4">
+                <i class="bi bi-calendar-check-fill me-2"></i>@TempData["ReservationCreated"]
+            </div>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" alt="Няма резервации" style="max-width: 120px;" class="mb-3">
+            <div class="alert alert-info d-inline-block rounded-pill px-4 py-2 shadow-sm">
+                <i class="bi bi-info-circle me-2"></i>Все още нямате направени резервации.
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center align-middle shadow-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Дата и час</th>
+                        <th>Възрастни</th>
+                        <th>Деца</th>
+                        <th>Зала</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td>@r.ReservationDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@r.PersonNumber</td>
+                            <td>@r.ChildrenNumber</td>
+                            <td>@r.RoomTypeName</td>
+                            <td>
+                                <form asp-action="Cancel" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@r.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                                        <i class="bi bi-x-circle"></i> Откажи
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

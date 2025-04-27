@@ -5,6 +5,7 @@ namespace Restaurant.WebApp.Services
 {
     public interface IOrderService
     {
+        public int GetCartItemCount(string userId);
         void AddToCart(int productId, string userId);
         void PlaceOrder(string userId);
         IEnumerable<CartItem> GetCartItems(string userId);

@@ -5,6 +5,7 @@
         public ProductDetailViewModel()
         {
             Categories = new List<CategoryModel>();
+            Reviews = new List<DishReviewViewModel>();
         }
 
         public int Id { get; set; }
@@ -17,5 +18,6 @@
         public string Category { get; set; }
         public int CategoryId { get; set; }
         public IEnumerable<CategoryModel> Categories { get; set; }
+        public IEnumerable<DishReviewViewModel> Reviews { get; set; }
     }
 }

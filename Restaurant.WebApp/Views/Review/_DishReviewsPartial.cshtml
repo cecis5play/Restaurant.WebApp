@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<DishReviewViewModel>
+@if (Model == null || !Model.Any())
+{
+    <p class="text-muted text-center">Няма все още ревюта за това ястие.</p>
+}
+else
+{
+@foreach (var review in Model)
+{
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@review.UserEmail</h5>
+            <div class="mb-2">
+                @{
+                    for (int i = 1; i <= review.Rating; i++)
+                    {
+                        <i class="fas fa-star text-warning"></i>
+                    }
+                }
+            </div>
+            <p class="card-text">@review.Comment</p>
+            <small class="text-muted">@review.CreatedOn.ToString("dd.MM.yyyy HH:mm")</small>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                <form asp-controller="Review" asp-action="DeleteReview"  method="post" class="d-inline">
+                    <input type="hidden" name="reviewId" value="@review.Id" />
+                        <input type="hidden" name="productId" value="@review.ProductId" />
+                    <button type="submit" class="btn btn-danger btn-sm float-end" onclick="return confirm('Сигурни ли сте, че искате да изтриете това ревю?')">
+                        <i class="fas fa-trash-alt"></i> Изтрий
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+}
+}

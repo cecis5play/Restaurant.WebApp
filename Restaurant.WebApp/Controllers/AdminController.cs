@@ -13,11 +13,13 @@ namespace Restaurant.WebApp.Controllers
         private readonly IOrderService orderService;
         public readonly ApplicationDbContext context;
         private readonly UserManager<IdentityUser> userManager;
-        public AdminController(IOrderService orderService, ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly IReserveService reserveService;
+        public AdminController(IOrderService orderService, ApplicationDbContext context, UserManager<IdentityUser> userManager, IReserveService reserveService)
         {
             this.orderService = orderService;
             this.context = context;
             this.userManager = userManager;
+            this.reserveService = reserveService;
         }
 
         public IActionResult Index()
@@ -71,6 +73,21 @@ namespace Restaurant.WebApp.Controllers
         {
             orderService.DeleteOrder(orderId);
             return RedirectToAction("AllOrders");
+        }
+[HttpGet]
+public IActionResult AllReservations(string searchEmail)
+{
+    var reservations = reserveService.GetAllReservations(searchEmail);
+    ViewBag.SearchEmail = searchEmail;
+    return View(reservations);
+}
+
+        [HttpPost]
+        public IActionResult DeleteReservation(int id)
+        {
+            reserveService.DeleteReservation(id);
+            TempData["SuccessMessage"] = "Резервацията беше изтрита успешно.";
+            return RedirectToAction("AllReservations");
         }
     }
 }

@@ -10,8 +10,7 @@ namespace Restaurant.WebApp.Models
         [Required]
         [Range(1, 5)]
         public int Rating { get; set; }
-
-        [MaxLength(1000)]
+        [StringLength(50, ErrorMessage = "Коментарът трябва да е до 50 символа.")]
         public string? Comment { get; set; }
     }
 }

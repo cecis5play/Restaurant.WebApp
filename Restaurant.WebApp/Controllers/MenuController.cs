@@ -81,7 +81,7 @@ namespace Restaurant.WebApp.Controllers
                 }).ToList();
         }
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Add()
         {
             var categories = service.GetCategories();
@@ -94,6 +94,7 @@ namespace Restaurant.WebApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Add(ProductFormModel model)
         {
 
@@ -105,7 +106,7 @@ namespace Restaurant.WebApp.Controllers
             return RedirectToAction(nameof(ProductDetails), new { Id = product });
         }
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult AddCategory()
         {
 
@@ -113,6 +114,7 @@ namespace Restaurant.WebApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult AddCategory(CategoryModel model)
         {
 
@@ -123,6 +125,8 @@ namespace Restaurant.WebApp.Controllers
             var category = service.CreateCategory(model);
             return RedirectToAction(nameof(All), new { categoryId = category });
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Edit(int id)
         {
             var product = this.service.GetProductDetails(id);
@@ -148,6 +152,7 @@ namespace Restaurant.WebApp.Controllers
             return View(productModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Edit(ProductFormModel model, int id)
         {
             if (!this.service.Exists(id))
@@ -164,6 +169,8 @@ namespace Restaurant.WebApp.Controllers
 
 
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult EditCategory(int id)
         {
             var category = this.service.GetCategoryDetails(id);
@@ -183,6 +190,7 @@ namespace Restaurant.WebApp.Controllers
             return View(categoryModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult EditCategory(CategoryModel model, int id)
         {
             if (!this.service.Exists(id))
@@ -200,6 +208,7 @@ namespace Restaurant.WebApp.Controllers
 
         }
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Delete(int id)
         {
 
@@ -220,6 +229,7 @@ namespace Restaurant.WebApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Delete(ProductDetailViewModel model)
         {
             if (!this.service.Exists(model.Id))
@@ -232,6 +242,7 @@ namespace Restaurant.WebApp.Controllers
             return RedirectToAction(nameof(All));
         }
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult DeleteCategory(int id)
         {
 
@@ -250,6 +261,7 @@ namespace Restaurant.WebApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult DeleteCategory(CategoryModel model)
         {
             if (!this.service.CategoryExists(model.Id))

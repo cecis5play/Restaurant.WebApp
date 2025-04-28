@@ -1,37 +1,32 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model ProductDetailViewModel
+﻿@model ProductDetailViewModel
 
-<h2 class="text-center my-4 text-pink">@ViewBag.Title</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="@Model.ImageUrl" class="card-img-top object-fit-cover" style="max-height: 400px; object-fit: cover;" alt="@Model.Name">
+                <div class="card-body p-4">
+                    <h1 class="card-title display-5 text-center mb-3">@Model.Name</h1>
+                    <p class="text-center text-muted mb-4 fs-5">@Model.Description</p>
 
-<div class="card text-center mx-auto shadow-sm" style="width: 30rem;">
-    <img class="card-img-top" src="@Model.ImageUrl/100px180/" alt="Product Image" style="border-radius: 10px;" />
-    <div class="card-body">
-        <h5 class="card-title" style="font-size: 2.5rem; font-family: 'Arial', sans-serif; color: #343a40;">@Model.Name</h5>
-        <p class="card-text" style="font-size: 1.25rem; color: #6c757d;">@Model.Description</p>
+                    <div class="text-center mb-3">
+                        <span class="badge bg-success fs-5 p-2">Цена: @Model.Price лв</span>
+                    </div>
+
+                    <div class="text-center d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                        <a asp-controller="Order" asp-action="OrderMenu" class="btn btn-secondary rounded-pill">
+                            <i class="fas fa-arrow-left me-1"></i> Обратно към менюто
+                        </a>
+
+                        <form asp-controller="Order" asp-action="AddToCart" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success rounded-pill">
+                                <i class="fas fa-cart-plus me-2"></i> Добави в количката
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<style>
-    /* Добавете стилове по желание */
-    h2 {
-        font-weight: bold;
-        color: #495057; /* Тъмен сив за заглавия */
-    }
-
-    .shadow-sm {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Лека сянка */
-    }
-
-    .card-body {
-        padding: 20px; /* Подобрена отстъпка в тялото на картата */
-    }
-
-    .btn {
-        transition: background-color 0.3s, transform 0.2s; /* Плавни преходи за бутоните */
-    }
-
-        .btn:hover {
-            background-color: #0056b3; /* Промяна на фона при задържане на бутона */
-            transform: translateY(-2px); /* Леко повдигане на бутона при hover */
-        }
-</style>

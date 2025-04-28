@@ -14,7 +14,7 @@ namespace Restaurant.WebApp.Services
         {
             this.context = context;
         }
-
+       
         public void AddToCart(int productId, string userId)
         {
             var cartItem = context.CartItems.FirstOrDefault(ci => ci.ProductId == productId && ci.UserId == userId);

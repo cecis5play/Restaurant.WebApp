@@ -37,6 +37,15 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Reserve" asp-action="Index"><i class="fas fa-chair me-1"></i>Резервирай</a>
                         </li>
+
+                        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-controller="AdminPanel" asp-action="Index">
+                                    <i class="fas fa-tools me-1"></i>Админ Панел
+                                </a>
+                            </li>
+                        }
                     </ul>
 
                     <ul class="navbar-nav mb-2 mb-lg-0">

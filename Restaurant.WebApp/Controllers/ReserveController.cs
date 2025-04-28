@@ -6,6 +6,7 @@ using Restaurant.WebApp.Services;
 
 namespace Restaurant.WebApp.Controllers
 {
+    [Authorize]
     public class ReserveController : Controller
     {
         private readonly IReserveService service;

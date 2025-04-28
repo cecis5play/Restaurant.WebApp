@@ -46,7 +46,6 @@
                     <tr>
                         <th>Дата и час</th>
                         <th>Възрастни</th>
-                        <th>Деца</th>
                         <th>Зала</th>
                         <th>Действия</th>
                     </tr>
@@ -56,8 +55,7 @@
                     {
                         <tr>
                             <td>@r.ReservationDate.ToString("dd.MM.yyyy HH:mm")</td>
-                            <td>@r.PersonNumber</td>
-                            <td>@r.ChildrenNumber</td>
+                            <td>@r.PersonNumber</td> 
                             <td>@r.RoomTypeName</td>
                             <td>
                                 <form asp-action="Cancel" method="post" class="d-inline">

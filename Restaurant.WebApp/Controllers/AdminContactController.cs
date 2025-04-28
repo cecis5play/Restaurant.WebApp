@@ -24,15 +24,35 @@ namespace Restaurant.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MarkAsHandled(int id)
+        [Authorize(Roles = "Admin,Manager")]
+        public IActionResult DeleteMessage(int id)
         {
-            var message = await context.ContactMessages.FindAsync(id);
+            var message = context.ContactMessages.FirstOrDefault(m => m.Id == id);
+
+            if (message == null || !message.IsHandled)
+            {
+                TempData["message"] = "Не може да изтриете необработено съобщение.";
+                return RedirectToAction("All");
+            }
+
+            context.ContactMessages.Remove(message);
+            context.SaveChanges();
+
+            TempData["message"] = "Съобщението беше изтрито успешно.";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
+        public IActionResult MarkAsHandled(int id)
+        {
+            var message = context.ContactMessages.FirstOrDefault(m => m.Id == id);
 
             if (message != null)
             {
                 message.IsHandled = true;
-                await context.SaveChangesAsync();
-                TempData["Success"] = "Съобщението е маркирано като обработено.";
+                context.SaveChanges();
+                TempData["message"] = "Съобщението беше маркирано като обработено.";
             }
 
             return RedirectToAction("Index");

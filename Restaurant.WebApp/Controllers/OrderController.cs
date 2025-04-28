@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.WebApp.Data;
 using Restaurant.WebApp.Data.Entities;
@@ -7,6 +8,7 @@ using Restaurant.WebApp.Services;
 
 namespace Restaurant.WebApp.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IMenuService service;

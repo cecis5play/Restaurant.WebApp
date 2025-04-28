@@ -16,32 +16,25 @@
                     <form method="post" asp-controller="Reserve" asp-action="Add">
                         <div class="mb-3">
                             <label asp-for="ReservationDate" class="form-label">Дата и час</label>
-                            <input asp-for="ReservationDate" type="datetime-local" class="form-control rounded-pill" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" step="60" />
+                            <input asp-for="ReservationDate" type="datetime-local" class="form-control rounded-pill" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddYears(1).ToString("yyyy-MM-ddTHH:mm")" data-date-format="{0:yyyy-MM-dd HH}" asp-format="{0:yyyy-MM-dd HH}" />
                             <span asp-validation-for="ReservationDate" class="text-danger small"></span>
+
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="PersonNumber" class="form-label">Брой възрастни</label>
+                            <label asp-for="PersonNumber" class="form-label">Брой хора</label>
                             <input asp-for="PersonNumber" class="form-control rounded-pill" placeholder="напр. 2" />
                             <span asp-validation-for="PersonNumber" class="text-danger small"></span>
                         </div>
+                            <div class="mb-4">
+                                <label asp-for="RoomTypeId" class="form-label">Изберете зала</label>
+                                <select asp-for="RoomTypeId" class="form-select rounded-pill">
 
-                        <div class="mb-3">
-                            <label asp-for="ChildrenNumber" class="form-label">Брой деца до 12г.</label>
-                            <input asp-for="ChildrenNumber" class="form-control rounded-pill" placeholder="напр. 1" />
-                            <span asp-validation-for="ChildrenNumber" class="text-danger small"></span>
-                        </div>
-
-                        <div class="mb-4">
-                            <label asp-for="RoomTypeId" class="form-label">Изберете зала</label>
-                            <select asp-for="RoomTypeId" class="form-select rounded-pill">
-                                @foreach (var item in Model.RoomTypes)
-                                {
-                                    <option value="@item.Id">@item.Name</option>
-                                }
-                            </select>
-                            <span asp-validation-for="RoomTypeId" class="text-danger small"></span>
-                        </div>
+                                    <option value="1">Отвън на терасата за пушачи</option>
+                                    <option value="2">Вътре в залата</option>
+                                </select>
+                                <span asp-validation-for="RoomTypeId" class="text-danger small"></span>
+                            </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-main btn-lg rounded-pill">
@@ -54,3 +47,5 @@
         </div>
     </div>
 </div>
+
+
